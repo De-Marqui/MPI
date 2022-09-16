@@ -14,8 +14,8 @@ int main()
     double ans = 0;
     double total = 0;
 
-   long long int start = rank * 500000000 + 1;   //500 + 1;  500 000 000
-   long long int end = start + 499999999;        //999;
+   long long int start = rank * 5000000000 + 1;   //500 + 1;  10 000 000 000
+   long long int end = start + 4999999999;        //999;
     
     //printf("start %d\n", start);
    // printf("end %d\n", end);
