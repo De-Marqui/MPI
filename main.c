@@ -25,7 +25,7 @@ int main()
     }
 
     if(rank != 0) {
-        MPI_Ssend(&ans, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+        MPI_Ssend(&ans, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
     } else {
         total = ans;
         for(int j = 1; j < 2; j++) {
