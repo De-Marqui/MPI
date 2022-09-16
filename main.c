@@ -13,7 +13,7 @@ int main(void)
   MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
 
   
-  int intervals = 1000;
+  int intervals = 2;
   double time1 = MPI_Wtime();
   MPI_Bcast(&intervals, 1, MPI_INT, 0, MPI_COMM_WORLD);
   
