@@ -14,13 +14,13 @@ int main()
     double S = 0;
     double serie = 0;
 
-   long long int start = rank * 500000000 + 1;   
+   long long int start = myRank * 500000000 + 1;   
    long long int end = start + 499999999;        
     
     for(int i = start; i <= end; i++) 
         S += (1.0/i);
     
-    if(rank != 0) {
+    if(myRank != 0) {
         MPI_Ssend(&S, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
     } else {
         serie = S;
