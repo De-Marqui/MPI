@@ -14,27 +14,26 @@ int main()
     double ans = 0;
     double total = 0;
 
-    int start = rank * 5 + 1;//500 + 1;
-    int end = start + 4;//999;
+    int start = rank * 500000000 + 1;   //500 + 1;  500 000 000
+    int end = start + 499999999;        //999;
     
     printf("start %d\n", start);
     printf("end %d\n", end);
     
     for(int i = start; i <= end; i++) {
         ans += (1.0/i);
-        printf("end %f\n", ans);
     }
 
     if(rank != 0) {
         MPI_Ssend(&ans, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
     } else {
         total = ans;
-        for(int j = 1; j < 2; j++) {
+        for(int j = 1; j < 2; j++) { // Esse 2 é quantia aceita de processadores
                 MPI_Recv(&ans, 1, MPI_DOUBLE, j, 0, MPI_COMM_WORLD, &status);
                 total += ans;
         }
-        printf("Total is %f\n", total);
-        printf("Total Nodes is %d\n", nodes);
+        printf("Total: %f\n", total);
+        printf("Total de Separacoes: %d\n", nodes);
    }
 
 
