@@ -35,7 +35,6 @@ int main()
         printf("Taylor(1000000000): %f\n", serie);
    }
 
-
     MPI_Finalize();
     return 0;
 }
