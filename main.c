@@ -32,7 +32,7 @@ int main()
                 MPI_Recv(&ans, 1, MPI_DOUBLE, j, 0, MPI_COMM_WORLD, &status);
                 total += ans;
         }
-        printf("Total: %lf\n", total);
+        printf("Total: %.10Lf\n", total);
         printf("Total de Separacoes: %d\n", nodes);
    }
 
