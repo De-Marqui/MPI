@@ -11,15 +11,17 @@ int main()
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Status status;
 
-    int ans = 0;
-    int total = 0;
+    double ans = 0;
+    double total = 0;
 
     int start = rank * 5 + 1;//500 + 1;
     int end = start + 4;//999;
+    
     printf("start %d\n", start);
     printf("end %d\n", end);
+    
     for(int i = start; i <= end; i++) {
-        ans = ans + i;
+        ans += (1/i);
     }
 
     if(rank != 0) {
