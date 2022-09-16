@@ -32,7 +32,7 @@ int main()
                 MPI_Recv(&ans, 1, MPI_INT, j, 0, MPI_COMM_WORLD, &status);
                 total += ans;
         }
-        printf("Total is %d\n", total);
+        printf("Total is %lld\n", total);
         printf("Total Nodes is %d\n", nodes);
    }
 
