@@ -14,8 +14,8 @@ int main()
     int ans = 0;
     int total = 0;
 
-    int start = rank * 250 + 1;
-    int end = start + 249;
+    int start = rank * 5 + 1;//500 + 1;
+    int end = start + 4;//999;
     printf("start %d\n", start);
     printf("end %d\n", end);
     for(int i = start; i <= end; i++) {
