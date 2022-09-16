@@ -29,7 +29,7 @@ int main()
     } else {
         total = ans;
         for(int j = 1; j < 2; j++) {
-                MPI_Recv(&ans, 1, MPI_INT, j, 0, MPI_COMM_WORLD, &status);
+                MPI_Recv(&ans, 1, MPI_DOUBLE, j, 0, MPI_COMM_WORLD, &status);
                 total += ans;
         }
         printf("Total is %lf\n", total);
