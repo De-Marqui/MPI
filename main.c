@@ -1,50 +1,39 @@
-#include <stdio.h>
+#include <cstdio>
+#include <cstdlib>
 #include <mpi.h>
-#include <string.h>
 
-int main(void)
+static int rank, nodes;
+
+int main()
 {
-  
-  // initialise the MPI 
-  int pe, numprocs;
-  
-  MPI_Init(NULL, NULL);
-  MPI_Comm_rank(MPI_COMM_WORLD, &pe);
-  MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
+    MPI_Init(NULL, NULL);
+    MPI_Comm_size(MPI_COMM_WORLD, &nodes);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Status status;
 
-  
-  int intervals = 2;
-  double time1 = MPI_Wtime();
-  MPI_Bcast(&intervals, 1, MPI_INT, 0, MPI_COMM_WORLD);
-  
-  int count = intervals / numprocs;
-  int start = count * pe;
-  int end = count * pe + count;
+    int ans = 0;
+    int total = 0;
 
-   long long int i;
-   double serie = 0, S = 0;
-   //long long int T = 2222222222;
+    int start = rank * 10 + 1;
+    int end = start + 9;
 
-  
-  for (i = start; i<=end; i++)
-  {
-     S += (1.0/i);
-  }
-  
-   MPI_Reduce(&S, &serie, 1, MPI_DOUBLE, MPI_SUM,
-        0, MPI_COMM_WORLD);
-
-   double time2 = MPI_Wtime();
-   
-  
-  if (pe == 0) {
-        serie = serie * 4;
-        printf("Result:   %.10lf\n", serie);
-        printf("Time:     %.10lf\n", time2 - time1);
+    for(int i = start; i <= end; i++) {
+        ans = ans + i;
     }
 
-   MPI_Finalize();
-   //ierr = MPI_Finalize();
-  
-   //printf("Serie de Taylor(%lld): %f\n", T, S);
+    if(rank != 0) {
+        MPI_Ssend(&ans, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+    } else {
+        total = ans;
+        for(int j = 1; j < 2; j++) {
+                MPI_Recv(&ans, 1, MPI_INT, j, 0, MPI_COMM_WORLD, &status);
+                total += ans;
+        }
+        printf("Total is %d\n", total);
+        printf("Total Nodes is %d\n", nodes);
+   }
+
+
+    MPI_Finalize();
+    return 0;
 }
