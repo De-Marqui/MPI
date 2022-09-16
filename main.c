@@ -2,38 +2,33 @@
 #include <stdlib.h>
 #include <mpi.h>
 
-static int rank, nodes;
+static int myRank, procNum;
 
 int main()
 {
     MPI_Init(NULL, NULL);
-    MPI_Comm_size(MPI_COMM_WORLD, &nodes);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &procNum);
+    MPI_Comm_rank(MPI_COMM_WORLD, &myRank);
     MPI_Status status;
 
-    double ans = 0;
-    double total = 0;
+    double S = 0;
+    double serie = 0;
 
    long long int start = rank * 500000000 + 1;   
    long long int end = start + 499999999;        
     
-    //printf("start %d\n", start);
-   // printf("end %d\n", end);
+    for(int i = start; i <= end; i++) 
+        S += (1.0/i);
     
-    for(int i = start; i <= end; i++) {
-        ans += (1.0/i);
-    }
-
     if(rank != 0) {
-        MPI_Ssend(&ans, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+        MPI_Ssend(&S, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
     } else {
-        total = ans;
-        for(int j = 1; j < 2; j++) { // Esse 2 é quantia aceita de processadores
-                MPI_Recv(&ans, 1, MPI_DOUBLE, j, 0, MPI_COMM_WORLD, &status);
-                total += ans;
-        }
-        printf("Total: %f\n", total);
-        printf("Total de Separacoes: %d\n", nodes);
+        serie = S;
+        for(int j = 1; j < 2; j++) { // Lembrete: [2] número de processador
+                MPI_Recv(&S, 1, MPI_DOUBLE, j, 0, MPI_COMM_WORLD, &status);
+                serie += S;
+    }
+        printf("Taylor(1000000000): %f\n", serie);
    }
 
 
