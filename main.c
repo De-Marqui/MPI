@@ -16,7 +16,8 @@ int main()
 
     int start = rank * 10 + 1;
     int end = start + 9;
-
+    rintf("start %d\n", start);
+    rintf("end %d\n", end);
     for(int i = start; i <= end; i++) {
         ans = ans + i;
     }
