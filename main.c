@@ -6,25 +6,45 @@ int main(void)
 {
   
   // initialise the MPI 
-  int ierr = MPI_Init(&argc, &argv);
-  int procid, numprocs;
+  int pe, numprocs, done = 0;
   
-  ierr = MPI_Comm_rank(MPI_COMM_WORLD, &procid);
-  ierr = MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
+  MPI_Init(NULL, NULL);
+  MPI_Comm_rank(MPI_COMM_WORLD, &pe);
+  MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
 
-  // partition = (job size) over (processors). 
-  unsigned int partition = N / numprocs;
   
+  int intervals = 2;
+  double time1 = MPI_Wtime();
+  MPI_Bcast(&intervals, 1, MPI_INT, 0, MPI_COMM_WORLD);
+  
+  int count = intervals / processes;
+  int start = count * pe;
+  int end = count * pe + count;
+
+   long long int i;
    double serie = 0, S = 0;
    long long int T = 2222222222;
 
   
-  for (long long int i = 1; i<=T; i++)
+  for (i = start; i<=end; i++)
   {
      S += (1.0/i);
   }
-   
-   ierr = MPI_Finalize();
   
-   printf("Serie de Taylor(%lld): %f\n", T, S);
+   MPI_Reduce(&subtotal, &total, 1, MPI_DOUBLE, MPI_SUM,
+        0, MPI_COMM_WORLD);
+
+   double time2 = MPI_Wtime();
+   
+  
+  if (pe == 0) {
+        serie = serie * 4;
+        printf("Result:   %.10lf\n", total);
+        printf("Time:     %.10lf\n", time2 - time1);
+    }
+
+   MPI_Finalize();
+   //ierr = MPI_Finalize();
+  
+   //printf("Serie de Taylor(%lld): %f\n", T, S);
 }
