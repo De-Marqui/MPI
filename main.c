@@ -6,7 +6,7 @@ int main(void)
 {
   
   // initialise the MPI 
-  int pe, numprocs, done = 0;
+  int pe, numprocs;
   
   MPI_Init(NULL, NULL);
   MPI_Comm_rank(MPI_COMM_WORLD, &pe);
@@ -23,7 +23,7 @@ int main(void)
 
    long long int i;
    double serie = 0, S = 0;
-   long long int T = 2222222222;
+   //long long int T = 2222222222;
 
   
   for (i = start; i<=end; i++)
@@ -39,7 +39,7 @@ int main(void)
   
   if (pe == 0) {
         serie = serie * 4;
-        printf("Result:   %.10lf\n", total);
+        printf("Result:   %.10lf\n", serie);
         printf("Time:     %.10lf\n", time2 - time1);
     }
 
