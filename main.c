@@ -21,7 +21,8 @@ int main()
     printf("end %d\n", end);
     
     for(int i = start; i <= end; i++) {
-        ans += (1/i);
+        ans += (1.0/i);
+        printf("end %d\n", ans);
     }
 
     if(rank != 0) {
