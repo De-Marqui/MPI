@@ -13,11 +13,11 @@ int main(void)
   MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
 
   
-  int intervals = 2;
+  int intervals = 1000;
   double time1 = MPI_Wtime();
   MPI_Bcast(&intervals, 1, MPI_INT, 0, MPI_COMM_WORLD);
   
-  int count = intervals / processes;
+  int count = intervals / numprocs;
   int start = count * pe;
   int end = count * pe + count;
 
@@ -31,7 +31,7 @@ int main(void)
      S += (1.0/i);
   }
   
-   MPI_Reduce(&subtotal, &total, 1, MPI_DOUBLE, MPI_SUM,
+   MPI_Reduce(&S, &serie, 1, MPI_DOUBLE, MPI_SUM,
         0, MPI_COMM_WORLD);
 
    double time2 = MPI_Wtime();
