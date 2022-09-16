@@ -2,8 +2,6 @@
 // Talyta Scaramuzzo - TIA: 32079915
 // Guilherme Rodrigues Santos - TIA: 32012209
 
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
