@@ -1,5 +1,5 @@
-#include <cstdio>
-#include <cstdlib>
+#include <stdio.h>
+#include <ctdlib.h>
 #include <mpi.h>
 
 static int rank, nodes;
