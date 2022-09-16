@@ -11,8 +11,8 @@ int main()
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Status status;
 
-    long double ans = 0;
-    long double total = 0;
+    double ans = 0;
+    double total = 0;
 
    long long int start = rank * 5 + 1;   //500 + 1;  500 000 000
    long long int end = start + 4;        //999;
