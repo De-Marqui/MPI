@@ -22,7 +22,7 @@ int main()
     
     for(int i = start; i <= end; i++) {
         ans += (1.0/i);
-        printf("end %d\n", ans);
+        printf("end %f\n", ans);
     }
 
     if(rank != 0) {
@@ -33,7 +33,7 @@ int main()
                 MPI_Recv(&ans, 1, MPI_DOUBLE, j, 0, MPI_COMM_WORLD, &status);
                 total += ans;
         }
-        printf("Total is %lf\n", total);
+        printf("Total is %f\n", total);
         printf("Total Nodes is %d\n", nodes);
    }
 
