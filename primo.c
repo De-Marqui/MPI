@@ -24,7 +24,7 @@ int main (  )
 
   n_lo = 16;
   n_hi = 128;
-  n_factor = 2;
+  n_factor = 1;
 
   ierr = MPI_Init ( NULL, NULL );
 
@@ -72,7 +72,7 @@ int main (  )
     if ( id == 0 )
     {
       wtime = MPI_Wtime ( ) - wtime;
-      //printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
+      printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
     }
     n = n * n_factor;
   }
@@ -114,7 +114,7 @@ int prime_number ( int n, int id, int p )
     }
     total = total + prime;
   }
-  printf ( "  %8d  %8d \n", n, total);
+  //printf ( "  %8d  %8d \n", n, total);
   return total;
 }
 
