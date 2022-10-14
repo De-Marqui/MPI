@@ -59,6 +59,7 @@ int main (  )
     if ( id == 0 )
     {
       wtime = MPI_Wtime ( );
+      printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
     }
     ierr = MPI_Bcast ( &n, 1, MPI_INT, 0, MPI_COMM_WORLD );
 
