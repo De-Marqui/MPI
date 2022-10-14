@@ -56,23 +56,23 @@ int main (  )
 
   while ( n <= n_hi )
   {
-    printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
+    //printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
     if ( id == 0 )
     {
       wtime = MPI_Wtime ( );
-      printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
+      //printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
     }
     ierr = MPI_Bcast ( &n, 1, MPI_INT, 0, MPI_COMM_WORLD );
 
     primes_part = prime_number ( n, id, p );
-
+    printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
     ierr = MPI_Reduce ( &primes_part, &primes, 1, MPI_INT, MPI_SUM, 0, 
       MPI_COMM_WORLD );
-
+    printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
     if ( id == 0 )
     {
       wtime = MPI_Wtime ( ) - wtime;
-      printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
+      //printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
     }
     n = n * n_factor;
   }
