@@ -62,9 +62,11 @@ void primeCalc(int n1, int n2) {
 
 
 int main() {
-   const int number1, number2;
+   static int number1, number2;
    printf("\nDigite um intervalo de 2 numeros formato: [numero] [espaço] [numero]:\n");
-   scanf("%d %d", &number1, &number2);
+   scanf("%md", &number1);
+   scanf("%md", &number2);
+
    MPI_Init(NULL , NULL);
    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
    MPI_Comm_size(MPI_COMM_WORLD, &process_count);
