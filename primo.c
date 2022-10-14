@@ -6,7 +6,7 @@
 
 int process_count;  
 int my_rank; 
-int number1, number2;
+int lowerRange, upperRange;
 
 int isPrime(int n) {
    int top,d;
@@ -18,8 +18,6 @@ int isPrime(int n) {
 }
 
 void primeCalc() {
-   int lowerRange = 2;
-   int upperRange = 100;
    double delta = (double)upperRange / process_count;
    int min, max; 
 
@@ -63,18 +61,18 @@ void primeCalc() {
 
 
 int main() {
- 
+   if (my_rank == 0) {
+      printf("\nDigite um intervalo de 2 numeros formato: [numero] [espaço] [numero]:\n");
+      scanf("%d", &lowerRange);
+      scanf("%d", &upperRange);
+      
+   }
   
    MPI_Init(NULL , NULL);
    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
    MPI_Comm_size(MPI_COMM_WORLD, &process_count);
    
-    if (my_rank == 0) {
-      printf("\nDigite um intervalo de 2 numeros formato: [numero] [espaço] [numero]:\n");
-      scanf("%d", &number1);
-      scanf("%d", &number2);
-      
-   }
+
    primeCalc();
    MPI_Finalize();
 }
