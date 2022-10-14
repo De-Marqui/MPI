@@ -77,7 +77,7 @@ int main(int argc, char **argv)
     //SPEEDUP
     int main(int argc, char** argv){
   double startwtime = 0.0, endwtime;
-  int quant = 1000000000,
+  int 
   i,
   localSum = 0,
   globalSum = 0, tmp;
