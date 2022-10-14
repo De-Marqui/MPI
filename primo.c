@@ -62,7 +62,7 @@ void primeCalc(int n1, int n2) {
 
 
 int main() {
-   static int number1, number2;
+   int number1, number2;
   
    MPI_Init(NULL , NULL);
    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
