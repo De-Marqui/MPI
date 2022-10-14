@@ -22,7 +22,7 @@ int main (  )
   int primes_part;
   double wtime;
 
-  n_lo = 1;
+  n_lo = 16;
   n_hi = 128;
   n_factor = 2;
 
