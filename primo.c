@@ -65,10 +65,10 @@ int main (  )
     ierr = MPI_Bcast ( &n, 1, MPI_INT, 0, MPI_COMM_WORLD );
 
     primes_part = prime_number ( n, id, p );
-    printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
+    //printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
     ierr = MPI_Reduce ( &primes_part, &primes, 1, MPI_INT, MPI_SUM, 0, 
       MPI_COMM_WORLD );
-    printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
+    
     if ( id == 0 )
     {
       wtime = MPI_Wtime ( ) - wtime;
@@ -114,6 +114,7 @@ int prime_number ( int n, int id, int p )
     }
     total = total + prime;
   }
+  printf ( "  %8d  %8d \n", n, total);
   return total;
 }
 
