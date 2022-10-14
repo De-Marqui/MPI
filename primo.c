@@ -68,7 +68,7 @@ int main() {
    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
    MPI_Comm_size(MPI_COMM_WORLD, &process_count);
    
-    if (myid == 0) {
+    if (my_rank == 0) {
       printf("\nDigite um intervalo de 2 numeros formato: [numero] [espaço] [numero]:\n");
       scanf("%d", &number1);
       scanf("%d", &number2);
