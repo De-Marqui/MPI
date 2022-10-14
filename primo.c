@@ -67,6 +67,6 @@ int main() {
    MPI_Comm_size(MPI_COMM_WORLD, &process_count);
    printf("\nDigite um intervalo de 2 numeros formato: %d %d:\n");
    scanf("%d %d", &number1, &number2);
-   primeCalc();
+   primeCalc(number1, number2);
    MPI_Finalize();
 }
