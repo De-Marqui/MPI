@@ -6,6 +6,7 @@
 
 int process_count;  
 int my_rank; 
+int number1, number2;
 
 int isPrime(int n) {
    int top,d;
@@ -16,9 +17,9 @@ int isPrime(int n) {
    return 1;
 }
 
-void primeCalc(int n1, int n2) {
-   int lowerRange = n1;
-   int upperRange = n2;
+void primeCalc() {
+   int lowerRange = number1;
+   int upperRange = number2;
    double delta = (double)upperRange / process_count;
    int min, max; 
 
@@ -62,7 +63,7 @@ void primeCalc(int n1, int n2) {
 
 
 int main() {
-   int number1, number2;
+ 
   
    MPI_Init(NULL , NULL);
    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
@@ -74,6 +75,6 @@ int main() {
       scanf("%d", &number2);
       
    }
-   primeCalc(number1, number2);
+   primeCalc();
    MPI_Finalize();
 }
