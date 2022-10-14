@@ -68,7 +68,7 @@ int main() {
    scanf("%d", &number1);
    scanf("%d", &number2);
 
-   fflush(stdout)
+   fflush(stdout);
    MPI_Init(NULL , NULL);
    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
    MPI_Comm_size(MPI_COMM_WORLD, &process_count);
