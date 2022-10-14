@@ -16,7 +16,7 @@ int isPrime(int n) {
    return 1;
 }
 
-void primeCalc(int argc, char **argv) {
+void primeCalc() {
    int upperRange = 5000000;
    int lowerRange = 2;
 
