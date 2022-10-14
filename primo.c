@@ -23,7 +23,7 @@ int main (  )
   double wtime;
 
   n_lo = 1;
-  n_hi = 262144;
+  n_hi = 100;
   n_factor = 2;
 
   ierr = MPI_Init ( NULL, NULL );
