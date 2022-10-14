@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
-
+#include <stdio.h>
 int DEFAULT_RANGE = 10000000;  // Default upper limit.
 
 int process_count;  // This variable, available throughtout the program,
