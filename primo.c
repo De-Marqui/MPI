@@ -72,8 +72,8 @@ int main() {
       printf("\nDigite um intervalo de 2 numeros formato: [numero] [espaço] [numero]:\n");
       scanf("%d", &number1);
       scanf("%d", &number2);
-      primeCalc(number1, number2);
+      
    }
-   
+   primeCalc(number1, number2);
    MPI_Finalize();
 }
