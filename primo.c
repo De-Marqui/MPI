@@ -22,8 +22,8 @@ int main (  )
   int primes_part;
   double wtime;
 
-  n_lo = 16;
-  n_hi = 128;
+  n_lo = 1;
+  n_hi = 5000000;
   n_factor = 1;
 
   ierr = MPI_Init ( NULL, NULL );
