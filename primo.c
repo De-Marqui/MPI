@@ -58,7 +58,7 @@ int main (  )
   {
     //printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
     //if ( id == 0 )
-    {
+    //{
       //wtime = MPI_Wtime ( );
       //printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
    // }
