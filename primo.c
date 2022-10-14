@@ -24,7 +24,7 @@ int main (  )
 
   n_lo = 1;
   n_hi = 5000000;
-  n_factor = 1;
+  n_factor = 2;
 
   ierr = MPI_Init ( NULL, NULL );
 
