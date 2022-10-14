@@ -16,7 +16,9 @@ int isPrime(int n) {
    return 1;
 }
 
-void primeCalc(int lowerRange, int upperRange) {
+void primeCalc(int n1, int n2) {
+   int lowerRange = n1;
+   int upperRange = n2;
    double delta = (double)upperRange / process_count;
    int min, max; 
 
