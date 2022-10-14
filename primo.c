@@ -3,20 +3,11 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdio.h>
-int DEFAULT_RANGE = 10000000;  
+
 int process_count;  
 int my_rank; 
 
-int get_range(int argc, char **argv) {
-   if (argc < 2 || !argv[1])
-      return DEFAULT_RANGE;
-   int range = atoi(argv[1]);
-   if (range < 2*process_count)
-      return DEFAULT_RANGE;
-   return range;
-}
-
-int is_prime(int n) {
+int isPrime(int n) {
    int top,d;
    top = (int)(sqrt((double)n)+0.0001);
    for (d = 2; d <= top; d++)
@@ -25,22 +16,22 @@ int is_prime(int n) {
    return 1;
 }
 
-void do_work(int argc, char **argv) {
+void primeCalc(int argc, char **argv) {
+   int upperRange = 5000000;
+   int lowerRange = 2;
 
-   int range = get_range(argc,argv); 
-   double delta = (double)range / process_count;
-   int min;  
-   int max; 
-   min = (my_rank == 0)? 2 : (int)(my_rank*delta) + 1;
-   max = (my_rank == process_count-1)? range : (int)((my_rank+1)*delta);
+   double delta = (double)upperRange / process_count;
+   int min, max; 
+
+   min = (my_rank == 0)? lowerRange : (int)(my_rank*delta) + 1;
+   max = (my_rank == process_count-1)? upperRange : (int)((my_rank+1)*delta);
 
    int count = 0;  
-   
    int i;
 
    if ( my_rank != 0) {
       for (i = min; i <= max; i++)    
-         if (is_prime(i))
+         if (isPrime(i))
             count++;
       int data_to_send[3];
       data_to_send[0] = count;
@@ -50,10 +41,10 @@ void do_work(int argc, char **argv) {
    }
    else {
       double start = MPI_Wtime();
-      for (i = min; i <= max; i++)    // Count the primes.
-         if (is_prime(i))
+      for (i = min; i <= max; i++)    
+         if (isPrime(i))
             count++;
-      printf("Process 0 reports %d primes between %d and %d.\n", count, min, max);
+      printf("Processo 0 Encontrou %d Numeros Primos entre %d e %d.\n", count, min, max);
       int ct;
       for (ct = 1; ct < process_count; ct++) {
          int data_received[3];
@@ -61,24 +52,20 @@ void do_work(int argc, char **argv) {
          MPI_Recv( data_received, 3, MPI_INT, MPI_ANY_SOURCE,
                         MPI_ANY_TAG, MPI_COMM_WORLD, &status );
          count += data_received[0];
-         printf("Process %d reports %d primes between %d and %d.\n", 
+         printf("Processo %d Encontrou %d Numeros Primos entre %d e %d.\n", 
               status.MPI_SOURCE, data_received[0], data_received[1], data_received[2]);
       }
-      printf("\nTotal number of primes between 2 and %d:  %d.\n", range, count);
+      printf("\nNumero de Primos Encontrados no Total entre: %d e %d:  %d.\n", lowerRange, upperRange, count);
       double elapsed = MPI_Wtime() - start;
-      printf("\nElapsed time:  %1.3f seconds.\n", elapsed);
+      printf("\nTempo de Execução:  %1.3f seconds.\n", elapsed);
    }
 }
 
 
-int main(int argc, char **argv) {
-
-   MPI_Init(&argc, &argv);
+int main() {
+   MPI_Init(NULL , NULL);
    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
    MPI_Comm_size(MPI_COMM_WORLD, &process_count);
-   
-   do_work(argc, argv);
-   
+   primeCalc();
    MPI_Finalize();
-
 }
