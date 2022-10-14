@@ -7,6 +7,14 @@ int DEFAULT_RANGE = 10000000;
 int process_count;  
 int my_rank; 
 
+int get_range(int argc, char **argv) {
+   if (argc < 2 || !argv[1])
+      return DEFAULT_RANGE;
+   int range = atoi(argv[1]);
+   if (range < 2*process_count)
+      return DEFAULT_RANGE;
+   return range;
+}
 
 int is_prime(int n) {
    int top,d;
