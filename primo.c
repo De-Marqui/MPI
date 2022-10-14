@@ -1,138 +1,189 @@
-# include <math.h>
-# include <mpi.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <time.h>
+//Talyta Scaramuzzo - 32079915
 
-int main (  );
-int prime_number ( int n, int id, int p );
-void timestamp ( );
+#include "mpi.h"
+
+#include <math.h>
+
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <string.h>
+
+#include <unistd.h>
 
 
-int main (  )
+
+#define MAXSIZE 5000
+
+
+
+int isPrime(int numero)
+
 {
-  int id;
-  int ierr;
-  int n;
-  int n_factor;
-  int n_hi;
-  int n_lo;
-  int p;
-  int primes;
-  int primes_part;
-  double wtime;
 
-  n_lo = 1;
-  n_hi = 5000000;
-  n_factor = 2;
+  int raiz, fator;
 
-  ierr = MPI_Init ( NULL, NULL );
+  raiz = (int)sqrt((double)numero);
 
-  if ( ierr != 0 )
+  for (fator = 2; fator <= raiz; fator++)
+
+    if (numero % fator == 0)
+
+    {
+
+      return 0;
+
+    }
+
+  return 1;
+
+}
+
+
+
+int main(int argc, char **argv)
+
+{
+
+  int myid, numprocs;
+
+  int myTotalPrimes = 0, totalPrimes = 0;
+
+  int *primes;
+
+  int *myPrimes;
+
+  int i, range, low, high;
+
+  int j, k;
+
+  myPrimes = (int *)malloc(sizeof(int) * 1);
+
+  primes = (int *)malloc(sizeof(int) * MAXSIZE);
+
+
+
+  j = strtol(argv[1], NULL, 10);
+
+  k = strtol(argv[2], NULL, 10);
+
+
+
+  MPI_Init(&argc, &argv);
+
+  MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
+
+  MPI_Comm_rank(MPI_COMM_WORLD, &myid);
+
+
+
+  range = round((k - j) / numprocs);
+
+  low = ((myid * range) + j) + myid;
+
+  high = low + range;
+
+  if (high > k)
+
+    high = k;
+
+
+
+  for (i = low + 1; i <= high; i++)
+
   {
-    printf ( "\n" );
-    printf ( "PRIME_MPI - Fatal error!\n" );
-    printf ( "  MPI_Init returns nonzero IERR.\n" );
-    exit ( 1 );
+
+    if (isPrime(i))
+
+    {
+
+      myPrimes[myTotalPrimes] = i;
+
+      myTotalPrimes++;
+
+      myPrimes = (int *)realloc(myPrimes, (myTotalPrimes) * sizeof(int));
+
+    }
+
   }
-  ierr = MPI_Comm_size ( MPI_COMM_WORLD, &p );
-  ierr = MPI_Comm_rank ( MPI_COMM_WORLD, &id );
 
-  if ( id == 0 )
+
+
+  char hostname[30];
+
+  gethostname(hostname, 30);
+
+  printf("I got %d from %d - %s\n", myTotalPrimes, myid, hostname);
+
+  printf("I got %d from %d - %s\n", myTotalPrimes, myid, hostname);
+
+
+
+  MPI_Reduce(&myTotalPrimes, &totalPrimes, 1, MPI_INT, MPI_SUM, 0,
+
+             MPI_COMM_WORLD);
+
+
+
+  MPI_Gather(myPrimes, myTotalPrimes, MPI_INT, primes, myTotalPrimes, MPI_INT,
+
+             0, MPI_COMM_WORLD);
+
+
+
+  if (myid == 0)
+
   {
-    timestamp ( );
-    printf ( "\n" );
-    printf ( "PRIME_MPI\n" );
-    printf ( "  C/MPI version\n" );
-    printf ( "\n" );
-    printf ( "  An MPI example program to count the number of primes.\n" );
-    printf ( "  The number of processes is %d\n", p );
-    printf ( "\n" );
-    printf ( "         N        Pi          Time\n" );
-    printf ( "\n" );
-  }
 
-  n = n_lo;
+    printf("The total primes is %d.\n", totalPrimes);
 
-  while ( n <= n_hi )
-  {
-    //printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
-    //if ( id == 0 )
-    //{
-      //wtime = MPI_Wtime ( );
-      //printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
-   // }
-    ierr = MPI_Bcast ( &n, 1, MPI_INT, 0, MPI_COMM_WORLD );
 
-    primes_part = prime_number ( n, id, p );
-    //printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
-    ierr = MPI_Reduce ( &primes_part, &primes, 1, MPI_INT, MPI_SUM, 0, 
-      MPI_COMM_WORLD );
-    
-   // if ( id == 0 )
+
+ //   for (int i = 0; i < totalPrimes + 1; i++)
+
    // {
-      //wtime = MPI_Wtime ( ) - wtime;
-      //printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
-   // }
-    n = n * n_factor;
+
+     // printf("%d\n", primes[i]);
+
+    //}
+
+    //SPEEDUP
+
+    int main(int argc, char** argv){
+
+  double startwtime = 0.0, endwtime;
+
+  int quant = 1000000000,
+
+  i,
+
+  localSum = 0,
+
+  globalSum = 0, tmp;
+
+// comm
+
+  int myrank, nprocs;
+
+// split
+
+  int split,
+
+  begin,
+
+  end;
+
+  printf("time: \t%f\n", endwtime - startwtime);
+
+  fflush(stdout);
+
   }
 
-  ierr = MPI_Finalize ( );
-  printf ( "  %8d  %8d  %14f\n", n, primes, wtime );
-  if ( id == 0 ) 
-  {
-    printf ( "\n");         
-    printf ( "PRIME_MPI - Master process:\n");         
-    printf ( "  Normal end of execution.\n"); 
-    printf ( "\n" );
-    timestamp ( );        
-  }
+
+
+  MPI_Finalize();
 
   return 0;
-}
 
-
-int prime_number ( int n, int id, int p )
-{
-  int i;
-  int j;
-  int prime;
-  int total;
-
-  total = 0;
-
-  for ( i = 2 + id; i <= n; i = i + p )
-  {
-    prime = 1;
-    for ( j = 2; j < i; j++ )
-    {
-      if ( ( i % j ) == 0 )
-      {
-        prime = 0;
-        break;
-      }
-    }
-    total = total + prime;
-  }
-  //printf ( "  %8d  %8d \n", n, total);
-  return total;
-}
-
-void timestamp ( )
-{
-# define TIME_SIZE 40
-
-  static char time_buffer[TIME_SIZE];
-  const struct tm *tm;
-  time_t now;
-
-  now = time ( NULL );
-  tm = localtime ( &now );
-
-  strftime ( time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm );
-
-  printf ( "%s\n", time_buffer );
-
-  return;
-# undef TIME_SIZE
 }
