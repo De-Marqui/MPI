@@ -17,8 +17,8 @@ int isPrime(int n) {
 }
 
 void primeCalc() {
-   int upperRange = 5000000;
-   int lowerRange = 2;
+   int upperRange = 100;
+   int lowerRange = 30;
 
    double delta = (double)upperRange / process_count;
    int min, max; 
